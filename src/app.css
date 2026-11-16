@@ -1,0 +1,309 @@
+/*
+ * Recreio design tokens: a night sky (after Slumber, slumberstudios.com).
+ * Deep navy neutrals with cool grey text; one action colour (bright blue, for
+ * what you press); a moonlit teal for labels and notices on the dark; moon gold
+ * for winning and for the sticks; one state colour (red, only for losing /
+ * leaving). Players in multiplayer games get their own five colours, which are
+ * never used for buttons.
+ *
+ * Shape rule: everything you press is a pill; inputs use --radius-sm; containers
+ * use --radius-lg, or --radius-xl for a "bezel" (an outer tray holding an inner
+ * plate, see .bezel below). No glows; shadows are tinted with the background.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Neutrals: night navy */
+  --bg: #060a14;
+  --bg-deep: #03060d;
+  --surface: #0d1322;
+  --surface-raised: #141b2b;
+  --surface-hover: #1b2438;
+  --line: rgba(195, 200, 210, 0.09);
+  --line-strong: rgba(195, 200, 210, 0.18);
+
+  /* Text (all AA on --bg; --ink-faint only for non-essential labels) */
+  --ink: #f7f9fc;
+  --ink-muted: #c3c8d2;
+  --ink-faint: #8b93a5;
+
+  /* Action: buttons, focus, fills. Slumber's #0074fc, a shade deeper so white
+     button text passes AA (4.8:1); hover and press go deeper still for the same
+     reason. Too dark for small text on the night background, so text that
+     needs colour uses --accent-text. */
+  --accent: #006cf0;
+  --accent-hover: #0062e0;
+  --accent-press: #0055c4;
+  --accent-deep: #0a4fb0;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(0, 108, 240, 0.14);
+
+  /* Moonlit teal: eyebrows, notices, small highlights on the dark */
+  --accent-text: #95cacf;
+  --accent-text-soft: rgba(149, 202, 207, 0.1);
+  --accent-text-line: rgba(149, 202, 207, 0.28);
+
+  /* Moon gold: winning, crowns, the sticks */
+  --gold: #f7b733;
+  --gold-hover: #ffc95c;
+  --gold-deep: #a8761c;
+  --gold-ink: #1d1405;
+  --gold-soft: rgba(247, 183, 51, 0.12);
+
+  /* State colour: losing, the fatal stick, leaving a game */
+  --danger: #ff6b6b;
+  --danger-soft: rgba(255, 107, 107, 0.12);
+
+  /* Players in games for more than two (Dotz, Guess Word): distinct from each
+     other, from the blue action colour and from the red state colour; AA on --bg. */
+  --player-1: #5fcfbe;
+  --player-2: #f4a261;
+  --player-3: #ee8fc0;
+  --player-4: #b6d97a;
+  --player-5: #b39dff;
+
+  /* Guess Word tiles, as in every Wordle: right place, wrong place, not in the
+     word. Muted, so the white letters stay readable. */
+  --tile-correct: #3d8a63;
+  --tile-present: #a8862c;
+  --tile-absent: #10172a;
+
+  /* Board (read by the canvas) */
+  --board-bg: var(--bg-deep);
+  --stick: var(--gold);
+  --stick-edge: var(--gold-deep);
+  --stick-hover: var(--gold-hover);
+  --stick-pick: var(--ink);
+  --stick-shadow: #02040a;
+
+  /* Type */
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Shape (see the rule at the top) */
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
+  --bezel-pad: 6px;
+
+  --shadow: 0 24px 48px -24px rgba(0, 4, 14, 0.8);
+  --highlight: inset 0 1px 0 rgba(207, 224, 255, 0.06);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Heavier, spring-like settle for things that move into place. */
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Side margin on phones, wider than the ~20px iOS edge-swipe zone. */
+  --edge-gutter: 1.75rem;
+
+  font: 400 17px/1.5 var(--font-sans);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  overscroll-behavior-x: none;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
+#app {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- Buttons: one system for the whole app ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 3rem;
+  padding: 0 1.35rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 0.98rem;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.3s var(--ease-spring),
+    border-color 0.3s var(--ease-spring),
+    color 0.3s var(--ease-spring),
+    transform 0.3s var(--ease-spring);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px) scale(0.98);
+}
+
+/* The trailing icon of a call to action sits in its own circle, flush with the
+   button's right edge, and leans forward on hover. */
+.btn .orb {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  margin-right: -0.95rem;
+  margin-left: 0.2rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  transition: transform 0.4s var(--ease-spring);
+}
+
+.btn-secondary .orb,
+.btn-ghost .orb {
+  background: rgba(207, 224, 255, 0.07);
+}
+
+.btn:hover:not(:disabled) .orb {
+  transform: translate(2px, -1px) scale(1.06);
+}
+
+.btn:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-primary:active:not(:disabled) {
+  background: var(--accent-press);
+}
+
+.btn-secondary {
+  background: var(--surface-raised);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--surface-hover);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-muted);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.btn-danger {
+  background: var(--danger-soft);
+  border-color: rgba(255, 107, 107, 0.4);
+  color: var(--danger);
+}
+
+/* Icons keep their size when a button is squeezed. */
+.btn svg {
+  flex: none;
+}
+
+/* ---- Bezel: an outer tray with a hairline, holding an inner plate ---- */
+.bezel {
+  padding: var(--bezel-pad);
+  border-radius: var(--radius-xl);
+  background: rgba(207, 224, 255, 0.025);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.bezel-core {
+  border-radius: calc(var(--radius-xl) - var(--bezel-pad));
+  background: var(--surface);
+  box-shadow: var(--highlight), inset 0 0 0 1px rgba(207, 224, 255, 0.03);
+  overflow: hidden;
+}
+
+/* A small label above a heading. Used once per screen at most. */
+.eyebrow-pill {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--accent-text-line);
+  background: var(--accent-text-soft);
+  color: var(--accent-text);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
