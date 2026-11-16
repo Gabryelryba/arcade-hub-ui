@@ -1,5 +1,15 @@
 import { describe, test, expect, afterEach } from "vitest";
-import { detectLanguage, setLanguage, currentLanguage, t, joinNames, serverMessage } from "./index.svelte.js";
+import {
+  detectLanguage,
+  languageFromSearch,
+  setLanguage,
+  currentLanguage,
+  t,
+  joinNames,
+  serverMessage,
+  registerMessages,
+  dictionaryEntries,
+} from "./index.svelte.js";
 import en from "./en.js";
 import ptBR from "./pt-BR.js";
 
@@ -20,13 +30,27 @@ describe("detectLanguage", () => {
   });
 });
 
+describe("languageFromSearch", () => {
+  test("reads a known language from ?lang=", () => {
+    expect(languageFromSearch("?lang=pt-BR")).toBe("pt-BR");
+    expect(languageFromSearch("?code=K7Q2M&lang=en")).toBe("en");
+  });
+
+  test("ignores a missing or unknown language", () => {
+    expect(languageFromSearch("")).toBeNull();
+    expect(languageFromSearch(undefined)).toBeNull();
+    expect(languageFromSearch("?lang=fr")).toBeNull();
+    expect(languageFromSearch("?lang=pt")).toBeNull();
+  });
+});
+
 describe("t", () => {
   test("follows the language chosen", () => {
     setLanguage("pt-BR");
     expect(currentLanguage()).toBe("pt-BR");
-    expect(t("hub.title")).toBe("Escolha um Jogo");
+    expect(t("lobby.start")).toBe("Iniciar Partida");
     setLanguage("en");
-    expect(t("hub.title")).toBe("Pick a Game");
+    expect(t("lobby.start")).toBe("Start Match");
   });
 
   test("game names: English in English, Portuguese in pt-BR", () => {
@@ -43,8 +67,8 @@ describe("t", () => {
   });
 
   test("fills placeholders and leaves unknown ones visible", () => {
-    expect(t("hub.play", { name: "Dotz" })).toBe("Play Dotz");
-    expect(t("hub.play")).toBe("Play {name}");
+    expect(t("common.joiningRoom", { code: "K7Q2M" })).toBe("Joining room K7Q2M…");
+    expect(t("common.joiningRoom")).toBe("Joining room {code}…");
   });
 
   test("picks the plural form by count", () => {
@@ -53,11 +77,43 @@ describe("t", () => {
     setLanguage("pt-BR");
     expect(t("lobby.hints.tooFew", { count: 1 })).toBe("Falta 1 jogador");
     expect(t("lobby.hints.tooFew", { count: 3 })).toBe("Faltam 3 jogadores");
-    expect(t("dotz.scoreboard.boxes", { count: 0 })).toBe("0 quadrados");
   });
 
   test("a missing key shows the key", () => {
     expect(t("nope.missing")).toBe("nope.missing");
+  });
+});
+
+describe("registerMessages", () => {
+  test("adds a site's own texts in each language", () => {
+    registerMessages({
+      en: { testSite: { title: "Test Site", boxes: { one: "{count} box", other: "{count} boxes" } } },
+      "pt-BR": { testSite: { title: "Site de Teste", boxes: { one: "{count} quadrado", other: "{count} quadrados" } } },
+    });
+    expect(t("testSite.title")).toBe("Test Site");
+    expect(t("testSite.boxes", { count: 1 })).toBe("1 box");
+    setLanguage("pt-BR");
+    expect(t("testSite.title")).toBe("Site de Teste");
+    expect(t("testSite.boxes", { count: 0 })).toBe("0 quadrados");
+  });
+
+  test("replaces a shared text without touching its neighbours", () => {
+    registerMessages({ en: { common: { playAgain: "Rematch" } } });
+    expect(t("common.playAgain")).toBe("Rematch");
+    expect(t("common.cancel")).toBe("Cancel");
+    expect(en.common.playAgain).toBe("Play Again");
+    registerMessages({ en: { common: { playAgain: en.common.playAgain } } });
+  });
+
+  test("a text only given in English shows in English for pt-BR too", () => {
+    registerMessages({ en: { testSite: { onlyEnglish: "Only English" } } });
+    setLanguage("pt-BR");
+    expect(t("testSite.onlyEnglish")).toBe("Only English");
+  });
+
+  test("ignores languages it does not know", () => {
+    registerMessages({ fr: { common: { cancel: "Annuler" } } });
+    expect(t("common.cancel")).toBe("Cancel");
   });
 });
 
@@ -80,20 +136,13 @@ describe("serverMessage", () => {
   });
 });
 
-// Every text exists in both languages, with the same placeholders and plural forms.
+// Every shared text exists in both languages, with the same placeholders and plural forms.
 describe("the dictionaries match", () => {
-  function entries(node, prefix = "") {
-    return Object.entries(node).flatMap(([key, value]) => {
-      const path = prefix ? `${prefix}.${key}` : key;
-      const isPlural = value && typeof value === "object" && "other" in value;
-      return value && typeof value === "object" && !isPlural ? entries(value, path) : [[path, value]];
-    });
-  }
   const placeholders = (value) =>
     [...new Set(JSON.stringify(value).match(/\{\w+\}/g) ?? [])].sort().join(",");
 
-  const enEntries = Object.fromEntries(entries(en));
-  const ptEntries = Object.fromEntries(entries(ptBR));
+  const enEntries = Object.fromEntries(dictionaryEntries(en));
+  const ptEntries = Object.fromEntries(dictionaryEntries(ptBR));
 
   test("same keys", () => {
     expect(Object.keys(ptEntries).sort()).toEqual(Object.keys(enEntries).sort());
