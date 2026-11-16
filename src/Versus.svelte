@@ -8,27 +8,27 @@
   let { me, them, active = null, winner = null } = $props();
 </script>
 
-<div class="versus" role="group" aria-label={t("stickSlash.players")}>
+<div class="versus" role="group" aria-label={t("versus.players")}>
   <div class="side me" class:active={active === "me"} class:won={winner === "me"}>
     <Avatar name={me.name} />
     <span class="text">
       <span class="name" translate="no">{me.name}</span>
       <span class="meta">
-        {#if winner === "me"}<Crown size={12} weight="fill" aria-hidden="true" /> {t("stickSlash.won")}{:else}{t("common.you")}{/if}
+        {#if winner === "me"}<Crown size={12} weight="fill" aria-hidden="true" /> {t("versus.won")}{:else}{t("common.you")}{/if}
       </span>
     </span>
     <span class="bar" aria-hidden="true"></span>
   </div>
 
-  <span class="vs" aria-hidden="true">{t("stickSlash.vs")}</span>
+  <span class="vs" aria-hidden="true">{t("versus.vs")}</span>
 
   <div class="side them" class:active={active === "them"} class:won={winner === "them"}>
     <span class="text">
       <span class="name" translate="no">{them.name}</span>
       <span class="meta">
-        {#if winner === "them"}<Crown size={12} weight="fill" aria-hidden="true" /> {t("stickSlash.won")}{:else}{them.computer
-            ? t("stickSlash.computer")
-            : t("stickSlash.opponent")}{/if}
+        {#if winner === "them"}<Crown size={12} weight="fill" aria-hidden="true" /> {t("versus.won")}{:else}{them.computer
+            ? t("versus.computer")
+            : t("versus.opponent")}{/if}
       </span>
     </span>
     <Avatar name={them.name} muted />
