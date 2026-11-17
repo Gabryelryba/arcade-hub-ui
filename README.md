@@ -83,16 +83,9 @@ As tags nunca são movidas: um site que fixou `v0.2.0` sempre recebe o mesmo có
 
 ## Build no Render
 
-O repositório é privado, então o build de cada static site precisa de um token do GitHub. Use um token fine-grained, só leitura (`Contents: Read`), com acesso apenas a `arcade-hub-ui`, guardado na variável `GITHUB_TOKEN` do serviço (`sync: false` no `render.yaml`; nunca commitar). O comando de build reescreve os endereços do GitHub para usar o token antes de instalar:
+O repositório é público, então os sites instalam o pacote sem token: o comando de build é só `npm ci && npm run build`.
 
-```bash
-git config --global url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/" \
-  && git config --global --add url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "ssh://git@github.com/" \
-  && git config --global --add url."https://x-access-token:${GITHUB_TOKEN}@github.com/".insteadOf "git@github.com:" \
-  && npm ci && npm run build
-```
-
-As três regras cobrem os formatos de endereço que o `npm` pode gravar no `package-lock.json` (`https`, `git+ssh` e `git@`).
+O `package-lock.json` grava o endereço como `git+ssh://git@github.com/...`, mas o `npm` baixa pacotes de repositórios públicos do GitHub por HTTPS, sem chave SSH. Isso foi testado com clone limpo, `HOME` vazio e SSH desligado.
 
 ## Desenvolvimento
 
