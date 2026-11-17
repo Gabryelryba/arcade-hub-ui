@@ -1,10 +1,10 @@
 /*
- * Shared design tokens: a night sky (after Slumber, slumberstudios.com).
- * Deep navy neutrals with cool grey text; one action colour (bright blue, for
- * what you press); a moonlit teal for labels and notices on the dark; moon gold
- * for winning and for the sticks; one state colour (red, only for losing /
- * leaving). Players in multiplayer games get their own five colours, which are
- * never used for buttons.
+ * Shared design tokens: a warm mauve. Mauve neutrals with near-white text,
+ * dark plum cards; one action colour (deep teal, for what you press); a pale
+ * teal for labels, notices and focus; warm gold for winning and for the
+ * sticks; one state colour (soft red, only for losing / leaving). Players in
+ * multiplayer games get their own five colours, which are never used for
+ * buttons. Contrast of the text pairs is checked in palette.test.js.
  *
  * Shape rule: everything you press is a pill; inputs use --radius-sm; containers
  * use --radius-lg, or --radius-xl for a "bezel" (an outer tray holding an inner
@@ -13,60 +13,67 @@
 :root {
   color-scheme: dark;
 
-  /* Neutrals: night navy */
-  --bg: #060a14;
-  --bg-deep: #03060d;
-  --surface: #0d1322;
-  --surface-raised: #141b2b;
-  --surface-hover: #1b2438;
-  --line: rgba(195, 200, 210, 0.09);
-  --line-strong: rgba(195, 200, 210, 0.18);
+  /* Neutrals: mauve, with dark plum cards */
+  --bg: #6e5c62;
+  --bg-deep: #615458;
+  --surface: #312b2d;
+  --surface-raised: #4c4347;
+  --surface-hover: #574d51;
+  --line: rgba(250, 250, 255, 0.12);
+  --line-strong: rgba(250, 250, 255, 0.22);
+  /* A faint light wash for trays and rows, and the dim layer behind dialogs. */
+  --sheen: rgba(250, 250, 255, 0.04);
+  --scrim: rgba(25, 21, 22, 0.72);
 
   /* Text (all AA on --bg; --ink-faint only for non-essential labels) */
-  --ink: #f7f9fc;
-  --ink-muted: #c3c8d2;
-  --ink-faint: #8b93a5;
+  --ink: #fafaff;
+  --ink-muted: #e3dcdf;
+  --ink-faint: #c9bfc4;
 
-  /* Action: buttons, focus, fills. Slumber's #0074fc, a shade deeper so white
-     button text passes AA (4.8:1); hover and press go deeper still for the same
-     reason. Too dark for small text on the night background, so text that
-     needs colour uses --accent-text. */
-  --accent: #006cf0;
-  --accent-hover: #0062e0;
-  --accent-press: #0055c4;
-  --accent-deep: #0a4fb0;
+  /* Action: buttons and fills. A deep teal so white button text passes AA;
+     hover and press go deeper still. Too dark for text or focus rings on the
+     mauve, which use --accent-text / --focus. */
+  --accent: #2b7d71;
+  --accent-hover: #256b61;
+  --accent-press: #1f5c53;
+  --accent-deep: #1a4f47;
   --accent-ink: #ffffff;
-  --accent-soft: rgba(0, 108, 240, 0.14);
+  --accent-soft: rgba(58, 163, 148, 0.18);
 
-  /* Moonlit teal: eyebrows, notices, small highlights on the dark */
-  --accent-text: #95cacf;
-  --accent-text-soft: rgba(149, 202, 207, 0.1);
-  --accent-text-line: rgba(149, 202, 207, 0.28);
+  /* Pale teal: eyebrows, notices, small highlights, focus */
+  --accent-text: #bdeee6;
+  --accent-text-soft: rgba(189, 238, 230, 0.12);
+  --accent-text-line: rgba(189, 238, 230, 0.32);
+  /* Focus rings and focused inputs: the deep teal is too close to the mauve. */
+  --focus: var(--accent-text);
 
-  /* Moon gold: winning, crowns, the sticks */
-  --gold: #f7b733;
-  --gold-hover: #ffc95c;
-  --gold-deep: #a8761c;
-  --gold-ink: #1d1405;
-  --gold-soft: rgba(247, 183, 51, 0.12);
+  /* Warm gold: winning, crowns, the sticks */
+  --gold: #d3ad69;
+  --gold-hover: #e2c286;
+  --gold-deep: #9c7a3c;
+  --gold-ink: #312b2d;
+  --gold-soft: rgba(211, 173, 105, 0.16);
 
   /* State colour: losing, the fatal stick, leaving a game */
-  --danger: #ff6b6b;
-  --danger-soft: rgba(255, 107, 107, 0.12);
+  --danger: #ffd2ce;
+  --danger-soft: rgba(255, 140, 130, 0.16);
+  --danger-line: rgba(255, 170, 160, 0.45);
+  /* A solid red behind white text (a button, the fatal stick's badge). */
+  --danger-fill: #b3413b;
 
   /* Players in games for more than two (Dotz, Guess Word): distinct from each
-     other, from the blue action colour and from the red state colour; AA on --bg. */
+     other, from the teal action colour and from the red state colour; at least
+     3:1 on --bg and --surface. */
   --player-1: #5fcfbe;
-  --player-2: #f4a261;
-  --player-3: #ee8fc0;
+  --player-2: #f7b27a;
+  --player-3: #f6a8cf;
   --player-4: #b6d97a;
-  --player-5: #b39dff;
+  --player-5: #c9b8ff;
 
-  /* Guess Word tiles, as in every Wordle: right place, wrong place, not in the
-     word. Muted, so the white letters stay readable. */
-  --tile-correct: #3d8a63;
-  --tile-present: #a8862c;
-  --tile-absent: #10172a;
+  /* Guess Word tiles: right place, wrong place, not in the word. */
+  --tile-correct: #3aa394;
+  --tile-present: #d3ad69;
+  --tile-absent: #312a2c;
 
   /* Board (read by the canvas) */
   --board-bg: var(--bg-deep);
@@ -74,7 +81,7 @@
   --stick-edge: var(--gold-deep);
   --stick-hover: var(--gold-hover);
   --stick-pick: var(--ink);
-  --stick-shadow: #02040a;
+  --stick-shadow: #241f21;
 
   /* Type */
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
@@ -87,8 +94,8 @@
   --radius-xl: 30px;
   --bezel-pad: 6px;
 
-  --shadow: 0 24px 48px -24px rgba(0, 4, 14, 0.8);
-  --highlight: inset 0 1px 0 rgba(207, 224, 255, 0.06);
+  --shadow: 0 24px 48px -24px rgba(25, 21, 22, 0.6);
+  --highlight: inset 0 1px 0 rgba(250, 250, 255, 0.06);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   /* Heavier, spring-like settle for things that move into place. */
   --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
@@ -150,7 +157,7 @@ h3 {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
 }
 
@@ -209,7 +216,7 @@ h3 {
 
 .btn-secondary .orb,
 .btn-ghost .orb {
-  background: rgba(207, 224, 255, 0.07);
+  background: var(--sheen);
 }
 
 .btn:hover:not(:disabled) .orb {
@@ -256,7 +263,7 @@ h3 {
 
 .btn-danger {
   background: var(--danger-soft);
-  border-color: rgba(255, 107, 107, 0.4);
+  border-color: var(--danger-line);
   color: var(--danger);
 }
 
@@ -269,7 +276,7 @@ h3 {
 .bezel {
   padding: var(--bezel-pad);
   border-radius: var(--radius-xl);
-  background: rgba(207, 224, 255, 0.025);
+  background: var(--sheen);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
 }
@@ -277,7 +284,7 @@ h3 {
 .bezel-core {
   border-radius: calc(var(--radius-xl) - var(--bezel-pad));
   background: var(--surface);
-  box-shadow: var(--highlight), inset 0 0 0 1px rgba(207, 224, 255, 0.03);
+  box-shadow: var(--highlight), inset 0 0 0 1px var(--sheen);
   overflow: hidden;
 }
 
