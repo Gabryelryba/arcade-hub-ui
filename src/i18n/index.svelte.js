@@ -1,8 +1,8 @@
 // Interface language. Players whose browser prefers Portuguese get pt-BR,
 // everyone else gets English. A language passed in the address (?lang=pt-BR,
-// how the hub hands its choice to a game site) wins over a choice remembered
-// on this site, which wins over the browser. Game names have their own name in
-// each language (Stick Slash / Risca Palito, Dotz / Liga Pontos).
+// for a link that should open in a given language) wins over a choice
+// remembered on this site, which wins over the browser. Each site registers its
+// game's name in both languages (Stick Slash / Risca Palito, Dotz / Liga Pontos).
 //
 // Texts live in en.js and pt-BR.js as nested objects, looked up by dotted key:
 // t("lobby.start"). Those hold what every site shares; each site adds its own

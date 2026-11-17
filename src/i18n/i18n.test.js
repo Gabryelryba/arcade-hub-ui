@@ -53,14 +53,6 @@ describe("t", () => {
     expect(t("lobby.start")).toBe("Start Match");
   });
 
-  test("game names: English in English, Portuguese in pt-BR", () => {
-    expect(t("games.stick-slash.name")).toBe("Stick Slash");
-    expect(t("games.dotz.name")).toBe("Dotz");
-    setLanguage("pt-BR");
-    expect(t("games.stick-slash.name")).toBe("Risca Palito");
-    expect(t("games.dotz.name")).toBe("Liga Pontos");
-  });
-
   test("an unknown language is ignored", () => {
     setLanguage("fr");
     expect(currentLanguage()).toBe("en");

@@ -6,7 +6,6 @@ export default {
   },
 
   common: {
-    backToHub: "Voltar ao Recreio",
     cancel: "Cancelar",
     connecting: "Conectando ao servidor…",
     waking: "Acordando o servidor. O plano gratuito dorme quando fica parado; isso pode levar até um minuto…",
@@ -36,24 +35,6 @@ export default {
     label: "Idioma",
   },
 
-  games: {
-    "stick-slash": {
-      name: "Risca Palito",
-      tagline: "Nim misère",
-      description: "Risquem palitos de uma fileira, um de cada vez. Quem riscar o último perde.",
-    },
-    dotz: {
-      name: "Liga Pontos",
-      tagline: "Jogo do pontinho",
-      description: "Ligue dois pontos por vez. Feche um quadrado para ficar com ele e jogar de novo. Quem tiver mais quadrados vence.",
-    },
-    "guess-word": {
-      name: "Adivinha Palavra",
-      tagline: "Wordle em grupo",
-      description: "Um jogador escolhe uma palavra secreta e os outros tentam adivinhar em seis tentativas. O primeiro acerto fecha a rodada.",
-    },
-  },
-
   chip: {
     caption: "Jogando como",
     label: "Jogando como {name}. Trocar nome",
@@ -80,7 +61,6 @@ export default {
   errors: {
     join: {
       "room-not-found": "Não existe sala com esse código. Confira com quem criou e tente de novo.",
-      "other-game": "Essa sala é de outro jogo.",
       "own-room": "Essa sala é sua. Mande o código para outra pessoa.",
       "host-offline": "A conexão de quem criou a sala caiu. Tente de novo em instantes.",
       "room-full": "Essa sala está cheia.",

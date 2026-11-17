@@ -4,16 +4,15 @@
   //
   //   mount(GameApp, { target, props: { Game: StickSlash, gameId: "stick-slash" } })
   //
+  // Each game is a site of its own, with nothing around it: the game's first
+  // screen is its landing page, and leaving a match or a room comes back to it.
   // An invite link (?code=ABCDE) is handed to the game once and then scrubbed
-  // from the address, so a refresh does not join again. Leaving the game goes
-  // to the Recreio hub; a room code that belongs to another game sends the
-  // player to that game's site with the code. The language goes along (?lang=).
+  // from the address, so a refresh does not join again.
   import AnimatedBackground from "./AnimatedBackground.svelte";
   import NameDialog from "./NameDialog.svelte";
   import { readCode, withoutCode } from "./invite.js";
   import { getName, setName } from "./player.js";
-  import { gameUrl } from "./gameUrls.js";
-  import { applyToDocument, currentLanguage } from "./i18n/index.svelte.js";
+  import { applyToDocument } from "./i18n/index.svelte.js";
 
   let { Game, gameId } = $props();
 
@@ -48,19 +47,6 @@
     nameRequest = null;
   }
 
-  function goToHub() {
-    window.location.assign(gameUrl("hub", null, currentLanguage()));
-  }
-
-  // -> true when the player is being sent to the other game's site.
-  function switchGame(id, code) {
-    if (id === gameId) return false;
-    const url = gameUrl(id, code, currentLanguage());
-    if (!url) return false;
-    window.location.assign(url);
-    return true;
-  }
-
   // The game has used the invite code; it must not join again after a remount.
   function inviteUsed() {
     inviteCode = null;
@@ -69,14 +55,7 @@
 
 <AnimatedBackground />
 
-<Game
-  onExit={goToHub}
-  {inviteCode}
-  onInviteUsed={inviteUsed}
-  onSwitchGame={switchGame}
-  {playerName}
-  {ensureName}
-/>
+<Game {inviteCode} onInviteUsed={inviteUsed} {playerName} {ensureName} />
 
 <NameDialog
   open={nameRequest !== null}

@@ -6,7 +6,6 @@ export default {
   },
 
   common: {
-    backToHub: "Back to Recreio",
     cancel: "Cancel",
     connecting: "Connecting to the server…",
     waking: "Waking the server up. The free host sleeps when idle; this can take up to a minute…",
@@ -36,24 +35,6 @@ export default {
     label: "Language",
   },
 
-  games: {
-    "stick-slash": {
-      name: "Stick Slash",
-      tagline: "Misère Nim",
-      description: "Take turns crossing sticks in a row. Whoever crosses the last one loses.",
-    },
-    dotz: {
-      name: "Dotz",
-      tagline: "Dots and boxes",
-      description: "Join two dots per turn. Close a box to keep it and play again. Most boxes wins.",
-    },
-    "guess-word": {
-      name: "Guess Word",
-      tagline: "Group Wordle",
-      description: "One player picks a secret word, the rest guess it in six tries. The first right guess closes the round.",
-    },
-  },
-
   chip: {
     caption: "Playing as",
     label: "Playing as {name}. Change name",
@@ -81,7 +62,6 @@ export default {
   errors: {
     join: {
       "room-not-found": "No room with that code. Check it with the host and try again.",
-      "other-game": "That room is for another game.",
       "own-room": "That is your own room. Share the code with someone else.",
       "host-offline": "The host’s connection dropped. Try again in a moment.",
       "room-full": "That room is full.",
