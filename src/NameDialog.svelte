@@ -3,7 +3,7 @@
   import { t } from "./i18n/index.svelte.js";
 
   // mode "first": asked before the first room; cancelling drops that action.
-  // mode "edit": changing the name from the hub.
+  // mode "edit": changing the name later.
   let { open, mode = "first", initial = "", onSave, onCancel } = $props();
 
   let dialog;
