@@ -11,7 +11,8 @@
   // and "How to play" below. `art` is the game's preview; `actions` holds extra
   // buttons next to the two main ones (Play vs Computer in Stick Slash).
   // showJoinForm and joinError are the parent's, so a refused join can reopen the form.
-  // With onEditName, a chip shows the player's name and lets them change it.
+  // With onEditName, a chip in the top right corner shows the player's name and
+  // lets them change it.
   let {
     gameId,
     eyebrow,
@@ -58,6 +59,12 @@
     onJoin(normalizeCode(joinCodeInput));
   }
 </script>
+
+{#if onEditName}
+  <div class="landing-top">
+    <PlayerChip name={playerName} onEdit={onEditName} />
+  </div>
+{/if}
 
 <div class="landing">
   <section class="hero" aria-labelledby="{gameId}-title">
@@ -122,17 +129,14 @@
         </form>
       {/if}
 
-      <div class="meta-row">
-        {#if steps.length > 0}
+      {#if steps.length > 0}
+        <div class="meta-row">
           <a class="how-link" href="#{howId}">
             {t("landing.howToPlay")}
             <ArrowDown size={14} weight="bold" aria-hidden="true" />
           </a>
-        {/if}
-        {#if onEditName}
-          <PlayerChip name={playerName} onEdit={onEditName} />
-        {/if}
-      </div>
+        </div>
+      {/if}
     </div>
 
     <div class="hero-art bezel" aria-hidden="true">
@@ -159,6 +163,15 @@
 </div>
 
 <style>
+  /* Same height as the bar with Leave on the other screens, so the page does
+     not jump when a room opens. */
+  .landing-top {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 2.75rem;
+  }
+
   .landing {
     flex: 1;
     display: grid;
