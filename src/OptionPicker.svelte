@@ -114,7 +114,7 @@
     color: var(--accent-ink);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 8px 18px -12px rgba(0, 60, 160, 0.95);
+      0 8px 18px -12px var(--accent-deep);
   }
 
   .segment:has(input:focus-visible) {
@@ -151,7 +151,7 @@
     padding: 0.4rem 0.9rem;
     border-radius: 999px;
     background: var(--accent-soft);
-    border: 1px solid rgba(0, 108, 240, 0.45);
+    border: 1px solid var(--accent-line);
     color: var(--ink);
     font-weight: 600;
     font-size: 0.92rem;
@@ -162,7 +162,7 @@
   @keyframes chip-in {
     from {
       transform: scale(0.88);
-      background: rgba(0, 108, 240, 0.45);
+      background: var(--accent-line);
     }
   }
 

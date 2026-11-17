@@ -24,6 +24,7 @@
   /* A faint light wash for trays and rows, and the dim layer behind dialogs. */
   --sheen: rgba(250, 250, 255, 0.04);
   --scrim: rgba(25, 21, 22, 0.72);
+  --sheen-strong: rgba(250, 250, 255, 0.08);
 
   /* Text (all AA on --bg; --ink-faint only for non-essential labels) */
   --ink: #fafaff;
@@ -39,6 +40,8 @@
   --accent-deep: #1a4f47;
   --accent-ink: #ffffff;
   --accent-soft: rgba(58, 163, 148, 0.18);
+  /* Outlines and selected fills in the teal (option pickers, the host's card). */
+  --accent-line: rgba(58, 163, 148, 0.5);
 
   /* Pale teal: eyebrows, notices, small highlights, focus */
   --accent-text: #bdeee6;
@@ -82,6 +85,12 @@
   --stick-hover: var(--gold-hover);
   --stick-pick: var(--ink);
   --stick-shadow: #241f21;
+
+  /* The animated background: a dark plum glow from the top, a little teal
+     beside it and pale teal low on the other side. */
+  --glow-deep: rgba(49, 43, 45, 0.55);
+  --glow-accent: rgba(58, 163, 148, 0.12);
+  --glow-soft: rgba(189, 238, 230, 0.07);
 
   /* Type */
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;

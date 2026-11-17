@@ -295,7 +295,7 @@
 
   .code-input:focus-visible {
     outline: none;
-    border-color: var(--accent);
+    border-color: var(--focus);
     box-shadow: 0 0 0 3px var(--accent-soft);
   }
 
@@ -345,7 +345,7 @@
     place-items: center;
     min-height: 15rem;
     background:
-      radial-gradient(70% 90% at 50% 0%, rgba(0, 116, 252, 0.12), transparent 70%),
+      radial-gradient(70% 90% at 50% 0%, var(--accent-soft), transparent 70%),
       var(--bg-deep);
   }
 
