@@ -206,11 +206,11 @@
   /* The host's panel is tinted with the action colour: these are controls. */
   .settings.host .settings-core {
     background:
-      radial-gradient(120% 70% at 0% 0%, rgba(0, 108, 240, 0.16), transparent 70%),
+      radial-gradient(120% 70% at 0% 0%, var(--accent-soft), transparent 70%),
       var(--surface);
     box-shadow:
       var(--highlight),
-      inset 0 0 0 1px rgba(0, 108, 240, 0.28);
+      inset 0 0 0 1px var(--accent-line);
   }
 
   .settings-head {
@@ -303,7 +303,7 @@
     min-height: 3.6rem;
     padding: 0.55rem 0.7rem;
     border-radius: 1.1rem;
-    background: rgba(207, 224, 255, 0.025);
+    background: var(--sheen);
     animation: seat-in 0.6s var(--ease-spring);
   }
 
@@ -365,7 +365,7 @@
 
   .ready .state {
     color: var(--ink);
-    background: rgba(207, 224, 255, 0.06);
+    background: var(--sheen-strong);
     border-color: var(--line-strong);
   }
 

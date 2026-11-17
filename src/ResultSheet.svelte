@@ -80,7 +80,7 @@
     position: fixed;
     inset: 0;
     z-index: 40;
-    background: linear-gradient(to bottom, transparent 20%, rgba(3, 6, 13, 0.75));
+    background: linear-gradient(to bottom, transparent 20%, var(--scrim));
     pointer-events: none;
     animation: fade 0.5s var(--ease-spring);
   }
@@ -98,7 +98,7 @@
     bottom: max(0.75rem, env(safe-area-inset-bottom));
     width: min(30rem, calc(100% - 1.5rem));
     translate: -50% 0;
-    background: rgba(11, 15, 26, 0.72);
+    background: var(--scrim);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     animation: rise 0.7s var(--ease-spring);
@@ -159,7 +159,7 @@
     min-height: 2.9rem;
     padding: 0.4rem 0.75rem 0.4rem 0.5rem;
     border-radius: 1rem;
-    background: rgba(207, 224, 255, 0.03);
+    background: var(--sheen);
     animation: row-in 0.6s var(--ease-spring) backwards;
     animation-delay: calc(200ms + var(--i) * 80ms);
   }

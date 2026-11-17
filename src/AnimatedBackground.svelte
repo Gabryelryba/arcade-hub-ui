@@ -47,15 +47,15 @@
     pointer-events: none;
   }
 
-  /* The night sky: a deep blue glow from the top, a little moonlit teal low on
-     the other side, drifting very slowly. */
+  /* A dark plum glow from the top, a little teal beside it and pale teal low
+     on the other side, drifting very slowly. */
   .wash {
     position: absolute;
     inset: -20%;
     background:
-      radial-gradient(60% 45% at 30% 8%, rgba(10, 26, 58, 0.95), transparent 72%),
-      radial-gradient(36% 30% at 24% 16%, rgba(0, 116, 252, 0.08), transparent 70%),
-      radial-gradient(34% 30% at 84% 86%, rgba(149, 202, 207, 0.05), transparent 70%);
+      radial-gradient(60% 45% at 30% 8%, var(--glow-deep), transparent 72%),
+      radial-gradient(36% 30% at 24% 16%, var(--glow-accent), transparent 70%),
+      radial-gradient(34% 30% at 84% 86%, var(--glow-soft), transparent 70%);
     transform: translate3d(var(--px, 0px), var(--py, 0px), 0);
     transition: transform 0.6s var(--ease-out);
     animation: drift 40s ease-in-out infinite alternate;
@@ -74,13 +74,13 @@
     inset: 0;
     background-image:
       radial-gradient(1.5px 1.5px at 12% 18%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
-      radial-gradient(1px 1px at 27% 62%, rgba(207, 224, 255, 0.4) 50%, transparent 50%),
+      radial-gradient(1px 1px at 27% 62%, rgba(255, 255, 255, 0.32) 50%, transparent 50%),
       radial-gradient(1px 1px at 41% 9%, rgba(255, 255, 255, 0.45) 50%, transparent 50%),
-      radial-gradient(1.5px 1.5px at 58% 32%, rgba(207, 224, 255, 0.35) 50%, transparent 50%),
+      radial-gradient(1.5px 1.5px at 58% 32%, rgba(255, 255, 255, 0.28) 50%, transparent 50%),
       radial-gradient(1px 1px at 73% 14%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
-      radial-gradient(1px 1px at 86% 41%, rgba(207, 224, 255, 0.35) 50%, transparent 50%),
+      radial-gradient(1px 1px at 86% 41%, rgba(255, 255, 255, 0.28) 50%, transparent 50%),
       radial-gradient(1px 1px at 94% 7%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
-      radial-gradient(1px 1px at 6% 46%, rgba(207, 224, 255, 0.3) 50%, transparent 50%);
+      radial-gradient(1px 1px at 6% 46%, rgba(255, 255, 255, 0.24) 50%, transparent 50%);
     background-size: 640px 520px;
     mask-image: linear-gradient(180deg, black, transparent 80%);
     animation: twinkle 7s ease-in-out infinite alternate;
@@ -92,9 +92,9 @@
     inset: 0;
     background-image:
       radial-gradient(1px 1px at 18% 34%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
-      radial-gradient(1.5px 1.5px at 47% 21%, rgba(207, 224, 255, 0.45) 50%, transparent 50%),
+      radial-gradient(1.5px 1.5px at 47% 21%, rgba(255, 255, 255, 0.36) 50%, transparent 50%),
       radial-gradient(1px 1px at 66% 58%, rgba(255, 255, 255, 0.3) 50%, transparent 50%),
-      radial-gradient(1px 1px at 81% 26%, rgba(207, 224, 255, 0.4) 50%, transparent 50%),
+      radial-gradient(1px 1px at 81% 26%, rgba(255, 255, 255, 0.32) 50%, transparent 50%),
       radial-gradient(1px 1px at 33% 4%, rgba(255, 255, 255, 0.45) 50%, transparent 50%);
     background-size: 460px 380px;
     animation: twinkle 9s ease-in-out -4s infinite alternate;

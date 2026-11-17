@@ -100,7 +100,7 @@
   }
 
   dialog::backdrop {
-    background: rgba(3, 6, 13, 0.72);
+    background: var(--scrim);
     backdrop-filter: blur(4px);
   }
 
@@ -123,7 +123,7 @@
     border-radius: var(--radius-lg);
     background: var(--surface);
     border: 1px solid var(--line-strong);
-    box-shadow: var(--shadow), inset 0 1px 0 rgba(207, 224, 255, 0.05);
+    box-shadow: var(--shadow), inset 0 1px 0 var(--sheen);
   }
 
   .eyebrow {
@@ -170,7 +170,7 @@
 
   input:focus-visible {
     outline: none;
-    border-color: var(--accent);
+    border-color: var(--focus);
     box-shadow: 0 0 0 3px var(--accent-soft);
   }
 
