@@ -114,6 +114,14 @@ export function t(key, vars = {}) {
   return text.replace(/\{(\w+)\}/g, (match, name) => (name in vars ? String(vars[name]) : match));
 }
 
+// -> a list kept whole in the dictionaries, in the current language (English
+// when missing), such as the steps of "How to play": [{ title, text }, ...].
+// [] when the key holds no list.
+export function tList(key) {
+  const list = lookup(DICTIONARIES[state.language], key) ?? lookup(DICTIONARIES.en, key);
+  return Array.isArray(list) ? list : [];
+}
+
 // "Ana, Rui and Bia" / "Ana, Rui e Bia".
 export function joinNames(names) {
   return new Intl.ListFormat(state.language, { type: "conjunction" }).format(names);

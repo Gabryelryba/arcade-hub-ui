@@ -23,7 +23,8 @@
   window.history.replaceState({}, "", withoutCode(window.location.href));
 
   // The display name is asked the first time it is needed (creating, joining or
-  // playing the computer) and remembered after that.
+  // playing the computer) and remembered after that. editName lets the landing
+  // page change it.
   let playerName = $state(getName());
   let nameRequest = $state(null); // { mode: "first" | "edit", resolve }
 
@@ -32,6 +33,11 @@
     if (playerName) return Promise.resolve(playerName);
     nameRequest?.resolve(null);
     return new Promise((resolve) => (nameRequest = { mode: "first", resolve }));
+  }
+
+  function editName() {
+    nameRequest?.resolve(null);
+    nameRequest = { mode: playerName ? "edit" : "first", resolve: () => {} };
   }
 
   function saveName(name) {
@@ -55,7 +61,7 @@
 
 <AnimatedBackground />
 
-<Game {inviteCode} onInviteUsed={inviteUsed} {playerName} {ensureName} />
+<Game {inviteCode} onInviteUsed={inviteUsed} {playerName} {ensureName} {editName} />
 
 <NameDialog
   open={nameRequest !== null}
