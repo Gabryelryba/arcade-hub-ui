@@ -72,20 +72,17 @@
     max-width: 11rem;
   }
 
-  /* Narrow phones share the top bar with the language switch: the chip keeps
-     only the avatar and the pencil (its aria-label still says the name). */
-  @media (max-width: 420px) {
-    .label {
+  /* On a phone the chip sits in the top corner: with a name it keeps only the
+     avatar and the pencil (its aria-label still says the name). Without one,
+     "Add Name" stays, so the player knows what it is for. */
+  @media (max-width: 640px) {
+    .chip:has(.caption) .label {
       display: none;
     }
 
-    .chip {
+    .chip:has(.caption) {
       gap: 0.45rem;
       padding: 0.3rem 0.7rem 0.3rem 0.35rem;
-    }
-
-    .chip:not(:has(.avatar)) {
-      padding: 0 0.85rem;
     }
   }
 </style>

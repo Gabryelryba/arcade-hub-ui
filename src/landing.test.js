@@ -73,7 +73,20 @@ describe("GameLanding", () => {
 
   test("the name chip only shows when the name can be edited", () => {
     expect(page()).not.toContain("Playing as");
+    expect(page()).not.toContain("landing-top");
     expect(page({ playerName: "Iara", onEditName: () => {} })).toContain("Iara");
+  });
+
+  test("the name chip sits in the top bar, above the title, not under the buttons", () => {
+    const html = page({ playerName: "Iara", onEditName: () => {} });
+    const chip = html.indexOf("Iara");
+    expect(html.indexOf("landing-top")).toBeLessThan(chip);
+    expect(chip).toBeLessThan(html.indexOf("<h1"));
+    expect(html.indexOf("Iara", html.indexOf("<h1"))).toBe(-1);
+  });
+
+  test("without a name the chip offers to add one", () => {
+    expect(page({ playerName: null, onEditName: () => {} })).toContain("Add Name");
   });
 
   test("buttons are disabled while connecting, with the status", () => {

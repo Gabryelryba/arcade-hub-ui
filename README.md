@@ -83,7 +83,7 @@ O `GameLanding.svelte` é a primeira tela de um jogo e a landing page do site: n
 
 - `steps`: lista de `{ title, text }`. No i18n do site, guarde a lista inteira numa chave (`dotz.steps: [{ title, text }, ...]`) e leia com `tList("dotz.steps")`, que segue o idioma atual.
 - `joinError` e `showJoinForm` são do jogo (`bind:`), para uma recusa do servidor reabrir o formulário com a mensagem.
-- `onEditName` (opcional) mostra o nome do jogador com o botão de trocar.
+- `onEditName` (opcional) mostra o nome do jogador no canto superior direito da landing, com o botão de trocar. No celular, com nome, fica só o avatar e o lápis; sem nome, "Adicionar Nome". Na sala e na partida o jogo tem a própria barra do topo, sem o nome.
 
 ## Textos (i18n)
 
