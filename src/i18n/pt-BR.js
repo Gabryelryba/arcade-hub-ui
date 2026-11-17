@@ -31,6 +31,10 @@ export default {
     loading: "Carregando o jogo",
   },
 
+  landing: {
+    howToPlay: "Como jogar",
+  },
+
   language: {
     label: "Idioma",
   },

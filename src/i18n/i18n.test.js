@@ -5,6 +5,7 @@ import {
   setLanguage,
   currentLanguage,
   t,
+  tList,
   joinNames,
   serverMessage,
   registerMessages,
@@ -113,6 +114,26 @@ test("joinNames uses the language's own list", () => {
   expect(joinNames(["Ana", "Rui"])).toBe("Ana and Rui");
   setLanguage("pt-BR");
   expect(joinNames(["Ana", "Rui", "Bia"])).toBe("Ana, Rui e Bia");
+});
+
+describe("tList", () => {
+  afterEach(() => setLanguage("en"));
+
+  test("a list in the current language, English when missing", () => {
+    registerMessages({
+      en: { demo: { steps: [{ title: "One", text: "First" }], onlyEn: [{ title: "A", text: "B" }] } },
+      "pt-BR": { demo: { steps: [{ title: "Um", text: "Primeiro" }] } },
+    });
+    expect(tList("demo.steps")).toEqual([{ title: "One", text: "First" }]);
+    setLanguage("pt-BR");
+    expect(tList("demo.steps")).toEqual([{ title: "Um", text: "Primeiro" }]);
+    expect(tList("demo.onlyEn")).toEqual([{ title: "A", text: "B" }]);
+  });
+
+  test("an empty list for a key that is not a list", () => {
+    expect(tList("lobby.start")).toEqual([]);
+    expect(tList("nothing.here")).toEqual([]);
+  });
 });
 
 describe("serverMessage", () => {

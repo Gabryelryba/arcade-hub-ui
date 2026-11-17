@@ -10,7 +10,7 @@ No `package.json` do site, com a tag fixa:
 
 ```json
 "dependencies": {
-  "arcade-hub-ui": "github:Gabryelryba/arcade-hub-ui#v0.1.0"
+  "arcade-hub-ui": "github:Gabryelryba/arcade-hub-ui#v0.3.0"
 }
 ```
 
@@ -51,6 +51,39 @@ export default mount(GameApp, {
   props: { Game: StickSlash, gameId: "stick-slash" },
 });
 ```
+
+O jogo recebe do `GameApp` as props `inviteCode`, `onInviteUsed`, `playerName`, `ensureName` (pede o nome na primeira vez que precisa) e `editName` (abre o diálogo para trocar o nome).
+
+## Landing page
+
+O `GameLanding.svelte` é a primeira tela de um jogo e a landing page do site: nome e chamada do jogo ao lado do tabuleiro animado (acima dele no celular), **Criar Sala**, **Entrar com Código** e a seção "Como jogar" com os passos numerados. Tem um único `h1` (o nome do jogo) e `h2` em "Como jogar".
+
+```svelte
+<GameLanding
+  gameId="dotz"
+  eyebrow={t("dotz.eyebrow")}
+  title={t("dotz.name")}
+  lede={t("dotz.lede")}
+  steps={tList("dotz.steps")}
+  {connecting}
+  {slowServer}
+  bind:joinError
+  bind:showJoinForm
+  onCreate={createRoom}
+  onJoin={joinRoom}
+  {playerName}
+  onEditName={editName}
+>
+  {#snippet art()}<Preview />{/snippet}
+  {#snippet actions()}
+    <!-- opcional: botões extras ao lado dos dois principais -->
+  {/snippet}
+</GameLanding>
+```
+
+- `steps`: lista de `{ title, text }`. No i18n do site, guarde a lista inteira numa chave (`dotz.steps: [{ title, text }, ...]`) e leia com `tList("dotz.steps")`, que segue o idioma atual.
+- `joinError` e `showJoinForm` são do jogo (`bind:`), para uma recusa do servidor reabrir o formulário com a mensagem.
+- `onEditName` (opcional) mostra o nome do jogador com o botão de trocar.
 
 ## Textos (i18n)
 
