@@ -10,7 +10,7 @@ No `package.json` do site, com a tag fixa:
 
 ```json
 "dependencies": {
-  "arcade-hub-ui": "github:Gabryelryba/arcade-hub-ui#v0.8.0"
+  "arcade-hub-ui": "github:Gabryelryba/arcade-hub-ui#v0.9.0"
 }
 ```
 
@@ -98,15 +98,22 @@ O `GameLanding.svelte` é a primeira tela de um jogo e a landing page do site: n
 </GameLanding>
 ```
 
-- `steps`: lista de `{ title, text }`. No i18n do site, guarde a lista inteira numa chave (`dotz.steps: [{ title, text }, ...]`) e leia com `tList("dotz.steps")`, que segue o idioma atual.
+- `steps`: lista de `{ title, text }`. No i18n do site, guarde a lista inteira numa chave (`dotz.steps: [{ title, text }, ...]`) e leia com `tList("dotz.steps")`.
 - `joinError` e `showJoinForm` são do jogo (`bind:`), para uma recusa do servidor reabrir o formulário com a mensagem.
 - `onEditName` (opcional) mostra o nome do jogador no canto superior direito da landing, com o botão de trocar. No celular, com nome, fica só o avatar e o lápis; sem nome, "Adicionar Nome". Na sala e na partida o jogo tem a própria barra do topo, sem o nome.
 
 ## Textos (i18n)
 
-`en.js` e `pt-BR.js` têm só o que todos os sites usam (`common`, `lobby`, `result`, `errors`, `name`…); o nome do jogo fica nos textos do próprio site. Cada site registra os próprios textos com `registerMessages({ en: {...}, "pt-BR": {...} })` antes do `mount`; uma chave que já existe é substituída (por exemplo `meta.description`). `dictionaryEntries()` ajuda o site a testar que os dois idiomas têm as mesmas chaves.
+Os textos ficam em português do Brasil. O `pt-BR.js` tem só o que todos os sites usam (`common`, `lobby`, `result`, `errors`, `name`…); o nome do jogo fica nos textos do próprio site. Cada site registra os próprios textos com `registerMessages({...})` antes do `mount`; uma chave que já existe é substituída (por exemplo `meta.description`).
 
-O idioma inicial vem de `?lang=pt-BR` ou `?lang=en` no endereço, depois da escolha guardada no site, depois do navegador.
+```js
+import { registerMessages, t } from "arcade-hub-ui/i18n/index.svelte.js";
+
+registerMessages({ dotz: { name: "Liga Pontos" } });
+t("dotz.name"); // "Liga Pontos"
+```
+
+Uma recusa do servidor vira texto com `serverMessage("join" | "move", { code })`: pelo código, quando ele está em `errors`, senão a mensagem geral `errors.unknown`. O campo `error` do servidor (texto em inglês para desenvolvedores) nunca aparece para o jogador.
 
 ## Cores
 
@@ -115,7 +122,7 @@ Todas as cores vêm dos tokens do `app.css` (paleta malva, com verde-água para 
 ## Lançar uma versão
 
 1. Abra o PR, faça o merge no `main`.
-2. Suba `version` no `package.json` e crie a tag: `git tag v0.8.0 && git push origin v0.8.0`.
+2. Suba `version` no `package.json` e crie a tag: `git tag v0.9.0 && git push origin v0.9.0`.
 3. Em cada site, troque a tag na dependência e instale com `npm install "arcade-hub-ui@github:Gabryelryba/arcade-hub-ui#vX.Y.Z"`. Um `npm install` sem argumento não troca o pacote que já está em `node_modules`.
 
 As tags nunca são movidas: um site que fixou `v0.2.0` sempre recebe o mesmo código.

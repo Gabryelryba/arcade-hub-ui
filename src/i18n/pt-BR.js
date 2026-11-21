@@ -1,5 +1,4 @@
-// Textos em português do Brasil. Mesmas chaves de en.js; o que faltar aqui
-// aparece em inglês.
+// Textos da interface, em português do Brasil.
 export default {
   meta: {
     description: "Jogos em tempo real para jogar com os amigos no navegador. Sem cadastro: escolha um nome, mande o código da sala e jogue.",
@@ -63,6 +62,8 @@ export default {
   },
 
   errors: {
+    // Uma recusa do servidor com um código que esta versão não conhece.
+    unknown: "Algo deu errado. Tente de novo.",
     join: {
       "room-not-found": "Não existe sala com esse código. Confira com quem criou e tente de novo.",
       "own-room": "Essa sala é sua. Mande o código para outra pessoa.",
