@@ -180,12 +180,13 @@
     min-height: 2.75rem;
   }
 
+  /* No padding of its own at the bottom: the credit ends the page, and the
+     screen's own padding is all the room it needs under it. */
   .landing {
     flex: 1;
     display: grid;
     gap: 3.5rem;
     align-content: start;
-    padding-bottom: 3rem;
   }
 
   .hero {
