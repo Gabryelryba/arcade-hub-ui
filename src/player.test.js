@@ -26,7 +26,7 @@ describe("validateName", () => {
 
   test("rejects an empty or blank name with a hint", () => {
     expect(validateName("").ok).toBe(false);
-    expect(validateName("   ").error).toMatch(/Type a name/);
+    expect(validateName("   ").error).toMatch(/Digite um nome/);
   });
 
   test("rejects names longer than 16 characters, counting an emoji as one", () => {

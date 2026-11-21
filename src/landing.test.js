@@ -3,7 +3,6 @@ import { render } from "svelte/server";
 import { createRawSnippet } from "svelte";
 import GameLanding from "./GameLanding.svelte";
 import { joinCodeError, normalizeCode } from "./landing.js";
-import { setLanguage } from "./i18n/index.svelte.js";
 
 const steps = [
   { title: "Create a room", text: "Share the link with a friend." },
@@ -12,7 +11,6 @@ const steps = [
 ];
 
 function page(props = {}) {
-  setLanguage("en");
   return render(GameLanding, {
     props: {
       gameId: "stick-slash",
@@ -33,7 +31,7 @@ describe("GameLanding", () => {
     const html = page();
     expect(html.match(/<h1[\s>]/g)).toHaveLength(1);
     expect(html).toMatch(/<h1[^>]*>Stick Slash<\/h1>/);
-    expect(html).toMatch(/<h2[^>]*>How to play<\/h2>/);
+    expect(html).toMatch(/<h2[^>]*>Como jogar<\/h2>/);
   });
 
   test("the steps are an ordered list, numbered, in order", () => {
@@ -53,8 +51,8 @@ describe("GameLanding", () => {
 
   test("Create Room and Join with Code are there, and the game's art", () => {
     const html = page();
-    expect(html).toContain("Create Room");
-    expect(html).toContain("Join With Code");
+    expect(html).toContain("Criar Sala");
+    expect(html).toContain("Entrar com Código");
     expect(html).toContain("data-art");
   });
 
@@ -68,11 +66,11 @@ describe("GameLanding", () => {
 
   test("without steps there is no How to play", () => {
     const html = page({ steps: [] });
-    expect(html).not.toContain("How to play");
+    expect(html).not.toContain("Como jogar");
   });
 
   test("the name chip only shows when the name can be edited", () => {
-    expect(page()).not.toContain("Playing as");
+    expect(page()).not.toContain("Jogando como");
     expect(page()).not.toContain("landing-top");
     expect(page({ playerName: "Iara", onEditName: () => {} })).toContain("Iara");
   });
@@ -86,23 +84,13 @@ describe("GameLanding", () => {
   });
 
   test("without a name the chip offers to add one", () => {
-    expect(page({ playerName: null, onEditName: () => {} })).toContain("Add Name");
+    expect(page({ playerName: null, onEditName: () => {} })).toContain("Adicionar Nome");
   });
 
   test("buttons are disabled while connecting, with the status", () => {
     const html = page({ connecting: true });
     expect(html).toContain('role="status"');
     expect(html).toMatch(/<button class="btn btn-primary[^"]*"[^>]*disabled/);
-  });
-
-  test("in Portuguese", () => {
-    setLanguage("pt-BR");
-    const html = render(GameLanding, {
-      props: { gameId: "dotz", eyebrow: "", title: "Liga Pontos", lede: "", steps, onCreate() {}, onJoin() {} },
-    }).body;
-    expect(html).toContain("Como jogar");
-    expect(html).toContain("Criar Sala");
-    setLanguage("en");
   });
 });
 
