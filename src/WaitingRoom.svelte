@@ -16,6 +16,10 @@
   // options: a snippet with the game's own settings, given whether this player
   // is the host (only the host changes them). They sit in their own panel, so
   // it is plain that the match can be customised before it starts.
+  //
+  // Layout: the room (code and invite) is a header across the whole width; under
+  // it, the settings and the seats side by side on wide screens, stretched to the
+  // same height, with the start button at the foot of the seats.
   let {
     lobby,
     minPlayers = 2,
@@ -51,12 +55,14 @@
 </script>
 
 <section class="lobby">
-  <div class="room">
-    <p class="eyebrow-pill">{t("lobby.eyebrow")}</p>
-    <p class="room-code" translate="no" aria-label={t("common.roomCodeAria", { code: code.split("").join(" ") })}>
-      {code}
-    </p>
-    <p class="help">{t("lobby.help")}</p>
+  <header class="room">
+    <div class="room-id">
+      <p class="eyebrow-pill">{t("lobby.eyebrow")}</p>
+      <p class="room-code" translate="no" aria-label={t("common.roomCodeAria", { code: code.split("").join(" ") })}>
+        {code}
+      </p>
+      <p class="help">{t("lobby.help")}</p>
+    </div>
     <div class="room-actions">
       <button class="btn btn-secondary" onclick={copyLink}>
         {#if linkCopied}
@@ -67,7 +73,9 @@
       </button>
       <button class="btn btn-ghost" onclick={onLeave}>{t("lobby.leave")}</button>
     </div>
+  </header>
 
+  <div class="panels" class:solo={!options}>
     {#if options}
       <section class="settings bezel" class:host={amHost} aria-labelledby="room-settings-title">
         <div class="settings-core bezel-core">
@@ -88,67 +96,67 @@
         </div>
       </section>
     {/if}
-  </div>
 
-  <div class="seats-panel bezel">
-    <div class="seats-core bezel-core">
-      <header class="seats-head">
-        <h2>{t("lobby.players")}</h2>
-        <span class="count">{lobby.players.length}/{maxPlayers}</span>
-      </header>
+    <div class="seats-panel bezel">
+      <div class="seats-core bezel-core">
+        <header class="seats-head">
+          <h2>{t("lobby.players")}</h2>
+          <span class="count">{lobby.players.length}/{maxPlayers}</span>
+        </header>
 
-      <ol class="seats" aria-live="polite">
-        {#each lobby.players as player (player.color)}
-          <li class="seat" class:away={!player.connected} class:ready={player.ready || player.host}>
-            <Avatar name={player.name} color={player.color} size="2.4rem" />
-            <span class="who">
-              <span class="name" translate="no">{player.name}</span>
-              {#if player.host || player.index === lobby.you}
-                <span class="role">
-                  {#if player.host}<Crown size={12} weight="fill" aria-hidden="true" /> {t("lobby.host")}{/if}
-                  {#if player.host && player.index === lobby.you}·{/if}
-                  {#if player.index === lobby.you}{t("common.you")}{/if}
-                </span>
+        <ol class="seats" aria-live="polite">
+          {#each lobby.players as player (player.color)}
+            <li class="seat" class:away={!player.connected} class:ready={player.ready || player.host}>
+              <Avatar name={player.name} color={player.color} size="2.4rem" />
+              <span class="who">
+                <span class="name" translate="no">{player.name}</span>
+                {#if player.host || player.index === lobby.you}
+                  <span class="role">
+                    {#if player.host}<Crown size={12} weight="fill" aria-hidden="true" /> {t("lobby.host")}{/if}
+                    {#if player.host && player.index === lobby.you}·{/if}
+                    {#if player.index === lobby.you}{t("common.you")}{/if}
+                  </span>
+                {/if}
+              </span>
+              {#if !player.host || !player.connected}
+                <span class="state">{seatStatus(player)}</span>
               {/if}
-            </span>
-            {#if !player.host || !player.connected}
-              <span class="state">{seatStatus(player)}</span>
-            {/if}
-          </li>
-        {/each}
-        {#each Array(openSeats) as _, i (i)}
-          <li class="seat open"><span class="ring" aria-hidden="true"></span><span class="who">{t("lobby.openSeat")}</span></li>
-        {/each}
-      </ol>
+            </li>
+          {/each}
+          {#each Array(openSeats) as _, i (i)}
+            <li class="seat open"><span class="ring" aria-hidden="true"></span><span class="who">{t("lobby.openSeat")}</span></li>
+          {/each}
+        </ol>
 
-      <footer class="seats-foot">
-        <p class="notice" role="status" aria-live="polite">
-          {#if reconnecting}{t("common.reconnecting")}{:else}{notice}{/if}
-        </p>
-        {#if amHost}
-          <button class="btn btn-primary go" disabled={!check.ok || reconnecting} onclick={onStart}>
-            {t("lobby.start")}
-            <span class="orb"><Play size={14} weight="fill" aria-hidden="true" /></span>
-          </button>
-          <p class="hint" aria-live="polite">{hint || t("lobby.everyoneReady")}</p>
-        {:else if me}
-          <button
-            class="btn go"
-            class:btn-primary={!me.ready}
-            class:btn-secondary={me.ready}
-            aria-pressed={me.ready}
-            disabled={reconnecting}
-            onclick={() => onReady(!me.ready)}
-          >
-            {#if me.ready}
-              {t("lobby.cancelReady")}
-            {:else}
-              <Check size={18} weight="light" aria-hidden="true" /> {t("lobby.imReady")}
-            {/if}
-          </button>
-          <p class="hint">{me.ready ? t("lobby.waitingHost") : t("lobby.markReady")}</p>
-        {/if}
-      </footer>
+        <footer class="seats-foot">
+          <p class="notice" role="status" aria-live="polite">
+            {#if reconnecting}{t("common.reconnecting")}{:else}{notice}{/if}
+          </p>
+          {#if amHost}
+            <button class="btn btn-primary go" disabled={!check.ok || reconnecting} onclick={onStart}>
+              {t("lobby.start")}
+              <span class="orb"><Play size={14} weight="fill" aria-hidden="true" /></span>
+            </button>
+            <p class="hint" aria-live="polite">{hint || t("lobby.everyoneReady")}</p>
+          {:else if me}
+            <button
+              class="btn go"
+              class:btn-primary={!me.ready}
+              class:btn-secondary={me.ready}
+              aria-pressed={me.ready}
+              disabled={reconnecting}
+              onclick={() => onReady(!me.ready)}
+            >
+              {#if me.ready}
+                {t("lobby.cancelReady")}
+              {:else}
+                <Check size={18} weight="light" aria-hidden="true" /> {t("lobby.imReady")}
+              {/if}
+            </button>
+            <p class="hint">{me.ready ? t("lobby.waitingHost") : t("lobby.markReady")}</p>
+          {/if}
+        </footer>
+      </div>
     </div>
   </div>
 </section>
@@ -163,7 +171,14 @@
     align-content: start;
   }
 
+  /* ---- The room: code and invite, across the whole width ---- */
   .room {
+    display: grid;
+    gap: 0.9rem;
+    min-width: 0;
+  }
+
+  .room-id {
     display: grid;
     gap: 0.9rem;
     align-content: start;
@@ -191,26 +206,33 @@
     gap: 0.5rem;
   }
 
-  /* ---- Settings: the game's options, in their own panel ---- */
-  .settings {
-    margin-top: 0.6rem;
+  /* ---- The two panels ---- */
+  .panels {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
     min-width: 0;
   }
 
+  /* Each panel fills its grid cell, so the two end on the same line. */
+  .settings,
+  .seats-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .settings-core,
+  .seats-core {
+    flex: 1;
+  }
+
+  /* ---- Settings: the game's options, in their own panel ---- */
   .settings-core {
     display: grid;
     gap: 1.1rem;
+    align-content: start;
     padding: 1.2rem 1.2rem 1.35rem;
-  }
-
-  /* The host's panel is tinted with the action colour: these are controls. */
-  .settings.host .settings-core {
-    background:
-      radial-gradient(120% 70% at 0% 0%, var(--accent-soft), transparent 70%),
-      var(--surface);
-    box-shadow:
-      var(--highlight),
-      inset 0 0 0 1px var(--accent-line);
   }
 
   .settings-head {
@@ -230,6 +252,7 @@
     color: var(--ink-muted);
   }
 
+  /* The host's icon carries the action colour: these are controls. */
   .settings.host .settings-icon {
     background: var(--accent);
     color: var(--accent-ink);
@@ -264,8 +287,8 @@
 
   /* ---- Seats ---- */
   .seats-core {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 0.25rem;
     padding: 1.1rem 1.1rem 1.25rem;
   }
@@ -384,7 +407,9 @@
     border: 1px dashed var(--line-strong);
   }
 
+  /* Pushed to the foot of the panel when it is stretched next to the settings. */
   .seats-foot {
+    margin-top: auto;
     display: grid;
     gap: 0.6rem;
     padding: 0.85rem 0.35rem 0;
@@ -401,6 +426,12 @@
     width: 100%;
   }
 
+  /* Waiting for players: plainly not ready yet, not a faded call to action. */
+  .go:disabled {
+    opacity: 0.4;
+    filter: saturate(0.35);
+  }
+
   .hint {
     color: var(--ink-muted);
     font-size: 0.9rem;
@@ -409,21 +440,30 @@
 
   @media (min-width: 900px) {
     .lobby {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-      column-gap: clamp(2.5rem, 6vw, 5.5rem);
-      align-items: center;
+      gap: 1.5rem;
       align-content: center;
       padding: 0 0 2rem;
     }
 
-    /* With the settings panel under it, the room column is the tall one: a
-       little less air, so the whole room fits a laptop screen. */
-    .room:has(.settings) {
-      gap: 0.75rem;
+    /* Code on the left, invite actions on the right, on the code's baseline. */
+    .room {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      column-gap: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
     }
 
-    .room:has(.settings) .room-code {
-      font-size: clamp(2.8rem, 6vw, 4.4rem);
+    .panels {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      align-items: stretch;
+      column-gap: clamp(1.25rem, 3vw, 2rem);
+    }
+
+    /* A game without settings: the seats alone, in a centred column. */
+    .panels.solo {
+      grid-template-columns: minmax(0, 32rem);
+      justify-content: center;
     }
 
     .settings-core {
