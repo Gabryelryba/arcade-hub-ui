@@ -10,7 +10,7 @@ No `package.json` do site, com a tag fixa:
 
 ```json
 "dependencies": {
-  "arcade-hub-ui": "github:Gabryelryba/arcade-hub-ui#v0.5.0"
+  "arcade-hub-ui": "github:Gabryelryba/arcade-hub-ui#v0.6.0"
 }
 ```
 
@@ -53,6 +53,23 @@ export default mount(GameApp, {
 ```
 
 O jogo recebe do `GameApp` as props `inviteCode`, `onInviteUsed`, `playerName`, `ensureName` (pede o nome na primeira vez que precisa) e `editName` (abre o diálogo para trocar o nome).
+
+## Voltar para a sala depois de uma recarga
+
+No celular, a aba que foi para segundo plano costuma ser recarregada quando o jogador volta. O `roomMemory.js` guarda na aba a sala em que o jogador está, para o jogo pedir o lugar de volta ao servidor (`resumeRoom`) em vez de cair na landing:
+
+```js
+import { rememberRoom, recallRoom, forgetRoom } from "arcade-hub-ui/roomMemory.js";
+
+rememberRoom({ code, gameId }); // ao criar ou entrar numa sala de espera (chamar de novo renova o horário)
+rememberRoom({ code, gameId, phase: "playing" }); // quando a partida começa
+recallRoom(); // -> { code, gameId, phase, at } | null
+forgetRoom(); // ao sair da sala
+```
+
+Uma partida não pode ser retomada. `phase: "playing"` só serve para o jogo explicar, depois da recarga, por que o jogador voltou para o menu.
+
+A sala fica no `sessionStorage` (chave `arcade-hub:room`), por aba, como o `clientId` do `socket.js`, que é como o servidor reconhece o lugar. O `recallRoom` descarta uma sala lembrada há mais de 3 minutos, o mesmo prazo em que o servidor segura um lugar na sala de espera. Sem armazenamento disponível, nada é lembrado e `recallRoom` devolve `null`.
 
 ## Landing page
 
@@ -98,7 +115,7 @@ Todas as cores vêm dos tokens do `app.css` (paleta malva, com verde-água para 
 ## Lançar uma versão
 
 1. Abra o PR, faça o merge no `main`.
-2. Suba `version` no `package.json` e crie a tag: `git tag v0.5.0 && git push origin v0.5.0`.
+2. Suba `version` no `package.json` e crie a tag: `git tag v0.6.0 && git push origin v0.6.0`.
 3. Em cada site, troque a tag na dependência e instale com `npm install "arcade-hub-ui@github:Gabryelryba/arcade-hub-ui#vX.Y.Z"`. Um `npm install` sem argumento não troca o pacote que já está em `node_modules`.
 
 As tags nunca são movidas: um site que fixou `v0.2.0` sempre recebe o mesmo código.
