@@ -90,7 +90,7 @@ export default {
 
   lobby: {
     eyebrow: "Waiting room",
-    help: "Send the link or read the code out loud. This screen stays awake while you wait.",
+    help: "Friends join with the link or with the code. This screen stays awake while you wait.",
     leave: "Leave Room",
     players: "Players",
     host: "Host",
