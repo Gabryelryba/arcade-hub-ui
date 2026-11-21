@@ -261,6 +261,7 @@
     gap: 0.5rem;
     margin-top: 0.75rem;
     max-width: 26rem;
+    min-width: 0;
   }
 
   label {
@@ -273,8 +274,12 @@
     gap: 0.6rem;
   }
 
+  /* width: 100% keeps the field from offering its natural size (twenty
+     characters of the large spaced-out monospace font, wider than a phone) to
+     the grid around the form; without it the whole page scrolled sideways. */
   .code-input {
     flex: 1 1 0;
+    width: 100%;
     min-width: 0;
     min-height: 3rem;
     padding: 0 1rem;
@@ -453,6 +458,11 @@
   @media (max-width: 640px) {
     .actions :global(.btn) {
       flex: 1 1 100%;
+    }
+
+    /* Phones: the code field and the join button are both wide, so they stack. */
+    .join-row {
+      flex-direction: column;
     }
   }
 

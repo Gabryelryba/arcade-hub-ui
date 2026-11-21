@@ -284,6 +284,18 @@
     min-width: 0;
   }
 
+  /* Phones: two wide buttons side by side squeeze their labels and icons, so
+     they stack. */
+  @media (max-width: 640px) {
+    .secondary {
+      flex-direction: column;
+    }
+
+    .secondary .btn {
+      flex: none;
+    }
+  }
+
   /* The narrowest phones: the vote chip keeps its check, the name keeps the room. */
   @media (max-width: 380px) {
     .again-text {
