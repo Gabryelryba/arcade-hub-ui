@@ -32,10 +32,9 @@ export default {
 
   landing: {
     howToPlay: "Como jogar",
-  },
-
-  language: {
-    label: "Idioma",
+    // O rodapé no fim da tela inicial; o nome é o link para o portfólio.
+    creditBy: "Criado por",
+    creditName: "Gabryel Ryba",
   },
 
   chip: {
