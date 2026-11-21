@@ -89,7 +89,7 @@ export default {
 
   lobby: {
     eyebrow: "Sala de espera",
-    help: "Mande o link ou fale o código em voz alta. Esta tela fica acesa enquanto você espera.",
+    help: "Os amigos entram pelo link ou pelo código. Esta tela fica acesa enquanto você espera.",
     leave: "Sair da Sala",
     players: "Jogadores",
     host: "Anfitrião",
