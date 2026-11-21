@@ -160,6 +160,14 @@
       </ol>
     </section>
   {/if}
+
+  <!-- Who made the games, quiet at the very end of the page. -->
+  <footer class="credit">
+    <p>
+      {t("landing.creditBy")}
+      <a href="https://gabryelryba.vercel.app/" target="_blank" rel="noopener">{t("landing.creditName")}</a>
+    </p>
+  </footer>
 </div>
 
 <style>
@@ -352,6 +360,34 @@
     background:
       radial-gradient(70% 90% at 50% 0%, var(--accent-soft), transparent 70%),
       var(--bg-deep);
+  }
+
+  .credit {
+    justify-self: center;
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 0.8rem;
+  }
+
+  .credit a {
+    display: inline-block;
+    padding: 0.35rem 0.15rem;
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: color 0.3s var(--ease-spring);
+  }
+
+  .credit a:hover {
+    color: var(--ink-muted);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .credit a:focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 2px;
   }
 
   .how {

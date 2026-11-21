@@ -16,7 +16,7 @@
 
   let { Game, gameId } = $props();
 
-  // <html lang> and the meta description follow the language from the start.
+  // <html lang="pt-BR"> and the meta description, set from the start.
   applyToDocument();
 
   let inviteCode = $state(readCode(window.location.search));

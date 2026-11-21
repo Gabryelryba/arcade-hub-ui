@@ -10,7 +10,7 @@ No `package.json` do site, com a tag fixa:
 
 ```json
 "dependencies": {
-  "arcade-hub-ui": "github:Gabryelryba/arcade-hub-ui#v0.9.0"
+  "arcade-hub-ui": "github:Gabryelryba/arcade-hub-ui#v0.10.0"
 }
 ```
 
@@ -73,7 +73,7 @@ A sala fica no `sessionStorage` (chave `arcade-hub:room`), por aba, como o `clie
 
 ## Landing page
 
-O `GameLanding.svelte` é a primeira tela de um jogo e a landing page do site: nome e chamada do jogo ao lado do tabuleiro animado (acima dele no celular), **Criar Sala**, **Entrar com Código** e a seção "Como jogar" com os passos numerados. Tem um único `h1` (o nome do jogo) e `h2` em "Como jogar".
+O `GameLanding.svelte` é a primeira tela de um jogo e a landing page do site: nome e chamada do jogo ao lado do tabuleiro animado (acima dele no celular), **Criar Sala**, **Entrar com Código**, a seção "Como jogar" com os passos numerados e, no fim, o rodapé discreto "Criado por Gabryel Ryba", com link para o portfólio (abre em outra aba). O rodapé só aparece nessa tela: a sala e a partida não têm. Tem um único `h1` (o nome do jogo) e `h2` em "Como jogar".
 
 ```svelte
 <GameLanding
@@ -122,7 +122,7 @@ Todas as cores vêm dos tokens do `app.css` (paleta malva, com verde-água para 
 ## Lançar uma versão
 
 1. Abra o PR, faça o merge no `main`.
-2. Suba `version` no `package.json` e crie a tag: `git tag v0.9.0 && git push origin v0.9.0`.
+2. Suba `version` no `package.json` e crie a tag: `git tag v0.10.0 && git push origin v0.10.0`.
 3. Em cada site, troque a tag na dependência e instale com `npm install "arcade-hub-ui@github:Gabryelryba/arcade-hub-ui#vX.Y.Z"`. Um `npm install` sem argumento não troca o pacote que já está em `node_modules`.
 
 As tags nunca são movidas: um site que fixou `v0.2.0` sempre recebe o mesmo código.

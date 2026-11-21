@@ -94,6 +94,21 @@ describe("GameLanding", () => {
   });
 });
 
+describe("credit", () => {
+  test("the page ends with who made it, linked to the portfolio in a new tab", () => {
+    const html = page();
+    const footer = html.indexOf('class="credit');
+    expect(footer).toBeGreaterThan(html.indexOf("</ol>"));
+    const credit = html.slice(footer);
+    expect(credit).toContain("Criado por");
+    expect(credit).toMatch(/<a href="https:\/\/gabryelryba\.vercel\.app\/" target="_blank" rel="noopener"[^>]*>Gabryel Ryba<\/a>/);
+  });
+
+  test("it is there even without How to play", () => {
+    expect(page({ steps: [] })).toContain("Gabryel Ryba");
+  });
+});
+
 describe("join code", () => {
   test("a code is sent trimmed and upper case", () => {
     expect(normalizeCode("  k7q2m ")).toBe("K7Q2M");
