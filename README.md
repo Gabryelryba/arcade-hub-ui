@@ -10,7 +10,7 @@ No `package.json` do site, com a tag fixa:
 
 ```json
 "dependencies": {
-  "arcade-hub-ui": "github:Gabryelryba/arcade-hub-ui#v0.10.1"
+  "arcade-hub-ui": "github:Gabryelryba/arcade-hub-ui#v0.11.0"
 }
 ```
 
@@ -122,7 +122,7 @@ Todas as cores vêm dos tokens do `app.css` (paleta malva, com verde-água para 
 ## Lançar uma versão
 
 1. Abra o PR, faça o merge no `main`.
-2. Suba `version` no `package.json` e crie a tag: `git tag v0.10.1 && git push origin v0.10.1`.
+2. Suba `version` no `package.json` e crie a tag: `git tag v0.11.0 && git push origin v0.11.0`.
 3. Em cada site, troque a tag na dependência e instale com `npm install "arcade-hub-ui@github:Gabryelryba/arcade-hub-ui#vX.Y.Z"`. Um `npm install` sem argumento não troca o pacote que já está em `node_modules`.
 
 As tags nunca são movidas: um site que fixou `v0.2.0` sempre recebe o mesmo código.

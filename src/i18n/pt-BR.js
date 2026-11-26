@@ -111,6 +111,8 @@ export default {
     },
     hints: {
       tooFew: { one: "Falta 1 jogador", other: "Faltam {count} jogadores" },
+      // The options allow fewer players than are in the room (a duel is for two).
+      tooMany: { one: "Só 1 jogador neste modo: alguém precisa sair", other: "Só {count} jogadores neste modo: alguém precisa sair" },
       notReadyOne: "Esperando {name} ficar pronto",
       notReadyTwo: "Esperando {a} e {b} ficarem prontos",
       notReadyMany: "Esperando {count} jogadores ficarem prontos",

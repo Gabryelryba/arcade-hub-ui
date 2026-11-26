@@ -29,6 +29,13 @@ describe("startCheck", () => {
     expect(startCheck(lobby)).toEqual({ ok: false, reason: "not-ready", waitingFor: ["Lívia", "Bento"] });
   });
 
+  test("more players than the room's limit: the server's, else the game's", () => {
+    const lobby = { players: [player("Iara", { host: true }), player("Caetano", { ready: true }), player("Lívia", { ready: true })] };
+    expect(startCheck(lobby, { maxPlayers: 5 })).toEqual({ ok: true });
+    expect(startCheck(lobby, { maxPlayers: 2 })).toEqual({ ok: false, reason: "too-many", maxPlayers: 2 });
+    expect(startCheck({ ...lobby, maxPlayers: 2 }, { maxPlayers: 5 })).toEqual({ ok: false, reason: "too-many", maxPlayers: 2 });
+  });
+
   test("everyone ready", () => {
     expect(startCheck({ players: [player("Iara", { host: true }), player("Caetano", { ready: true })] })).toEqual({
       ok: true,
@@ -48,6 +55,7 @@ describe("startHint", () => {
       "Esperando 3 jogadores ficarem prontos"
     );
     expect(startHint({ ok: false, reason: "not-host" })).toBe("Só o anfitrião pode iniciar");
+    expect(startHint({ ok: false, reason: "too-many", maxPlayers: 2 })).toBe("Só 2 jogadores neste modo: alguém precisa sair");
   });
 
   test("nothing when ready", () => {
