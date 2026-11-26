@@ -11,7 +11,8 @@
 
   // The waiting room of every game played from one (Dotz, Guess Word).
   // lobby: the last `lobby` event ({ code, phase, options, players, you }).
-  // minPlayers / maxPlayers: the game's, from the registry.
+  // minPlayers / maxPlayers: the game's, from the registry (lobby.maxPlayers, when the
+  // server sends it, wins: the limit can depend on the options).
   // notice: a short message for everyone in the room (host change, refused start).
   // options: a snippet with the game's own settings, given whether this player
   // is the host (only the host changes them). They sit in their own panel, so
@@ -37,9 +38,11 @@
 
   const me = $derived(lobby.players[lobby.you] ?? null);
   const amHost = $derived(Boolean(me?.host));
-  const check = $derived(startCheck(lobby, { minPlayers }));
+  const check = $derived(startCheck(lobby, { minPlayers, maxPlayers }));
   const hint = $derived(startHint(check));
-  const openSeats = $derived(Math.max(0, maxPlayers - lobby.players.length));
+  // The server says the room's limit when it depends on the options (a duel is for two).
+  const seatLimit = $derived(lobby.maxPlayers ?? maxPlayers);
+  const openSeats = $derived(Math.max(0, seatLimit - lobby.players.length));
   const code = $derived(lobby.code ?? "");
 
   async function copyLink() {
@@ -101,7 +104,7 @@
       <div class="seats-core bezel-core">
         <header class="seats-head">
           <h2>{t("lobby.players")}</h2>
-          <span class="count">{lobby.players.length}/{maxPlayers}</span>
+          <span class="count">{lobby.players.length}/{seatLimit}</span>
         </header>
 
         <ol class="seats" aria-live="polite">
